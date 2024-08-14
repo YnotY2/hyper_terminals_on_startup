@@ -15,6 +15,28 @@ Open specified amount of custom hyper terminals automatically, run custom unique
 ![Example terminal layout](./git_hub_images/example_layout_1.png)
 ![Example terminal layout](./git_hub_images/example_layout_2.png)
 
+
+## Table of Contents
+
+1. [Features](#features)
+2. [Installation](#installation)
+   - [Cloning Git Repository](#cloning-git-repository)
+   - [Installing Requirements](#installing-requirements)
+   - [Executing `main.sh`](#executing-mainsh)
+   - [Verifying Setup](#verifying-setup)
+   - [Manually Setting Up](#manually-setting-up)
+3. [Works Out of the Box 📦](#works-out-of-the-box-)
+   - [Configuration](#configuration)
+     - [Modify `open_specified_amount_hyper_terminal_windows`](#modify-openspecifiedamounthyperterminalwindows-bash-file)
+     - [Modify `move_and_resize_all_open_hyper_terminals`](#modify-moveandresizeallopenhyperterminals-bash-file)
+     - [Modify `execute_specified_cmds_within_open_hyper_terminals`](#modify-executespecifiedcmdswithinopenhyperterminals-bash-file)
+     - [Modify `startup_terminals.sh`](#modify-startupterminals-sh-bash-file)
+4. [Understanding Code Layout](#understanding-code-layout)
+   - [Directory Layout](#directory-layout)
+   - [Summary](#summary)
+5. [File: `main.sh`](#file-mainsh)
+6. [Verifying Setup](#verifying-setup)
+
 ## Table of Contents
 
 1. [Features](#features)
