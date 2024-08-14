@@ -247,7 +247,7 @@ for id in $window_ids; do
 done
 
 ```
-- Herew ithin the file  you can specify what ever command you would wish to be executed within the open terminal commands:
+- Here within the file  you can specify what ever command you would wish to be executed within the open terminal commands:
 ```
 commands=(
     "lsblk -f"
