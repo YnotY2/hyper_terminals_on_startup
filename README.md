@@ -60,13 +60,22 @@ pip install -r requirements.txt
 <br>
 
 ### Executing 'main.sh'
-To install requirements using the command line, follow these simple steps:
 
-1. Navigate to the dir containing the 'main.sh' file.
-2. Install the requirements:
-```
-sudo ./main.sh
-```
+1. **Make the Script Executable:**
+
+   Before running `main.sh`, ensure it is executable:
+   ```bash
+   chmod +x main.sh
+   ```
+
+2. **Run the Script with Root Privileges:**
+
+   Execute the script with `sudo` to ensure all installation and configuration steps are performed correctly:
+   ```bash
+   sudo ./main.sh
+   ```
+
+By following these steps, your Hyper terminals will be set up to open and configure automatically upon startup.
 
 <br>
 <br>
@@ -108,6 +117,10 @@ for ((i=1; i<=$num_executions; i++)); do
     sleep 0.5
 done
 ```
+Modify the 'num_executions' variable to whatever value you wish.
+
+-**Note:** The amount of terminals opened connot be less than the amount 
+of commands executed within the terminal windows.
 
 <br>
 <br>
@@ -168,31 +181,114 @@ The int values within the script correspond to the pixels on you're screen. Play
 
 ### 3. Modify *"execute_specified_cmds_within_open_hyper_terminals"* bash file
 
-
-The start menu is configured in the `./bot/handlers/user_handlers.py` file. Here is the relevant section of the code:
-
 ```python
+#!/bin/bash
 
+# Function to execute a command in a terminal window
+execute_command() {
+    local id=$1
+    local command=$2
+
+    # Activate the terminal window
+    xdotool windowactivate --sync $id
+
+    # Clear the terminal window
+    xdotool key --clearmodifiers "ctrl+l"
+
+    # Type the command into the terminal window
+    xdotool type --clearmodifiers "$command"
+
+    # Press Enter to execute the command
+    xdotool key --clearmodifiers "Return"
+
+    # Wait for the command to execute
+    sleep 0.2
+}
+
+# Get the window IDs of the terminal windows
+window_ids=$(xdotool search --onlyvisible --class "Hyper")
+
+# Counter for terminal windows
+terminal_counter=0
+
+# Commands to execute in each terminal window
+commands=(
+    "lsblk -f"
+    "cd ..; ls"
+    "cd /home/custom_configs/nftables; sudo nft list ruleset"
+    "sudo apt-get update && sudo apt-get upgrade"
+    "cat /home/ynoty2/Desktop/.project_switch/TODO"
+)
+
+# Loop through each window ID and execute the corresponding command
+for id in $window_ids; do
+    # Increment terminal counter
+    ((terminal_counter++))
+
+    # Check if the terminal ID is valid
+    if [ -n "$id" ]; then
+        # Execute the command in the current terminal window
+        execute_command $id "${commands[$terminal_counter - 1]}"
+    else
+        echo "Error: Terminal window ID not found."
+    fi
+done
+
+```
+- Herew ithin the file  you can specify what ever command you would wish to be executed within the open terminal commands:
+```
+commands=(
+    "lsblk -f"
+    "cd ..; ls"
+    "cd /home/custom_configs/nftables; sudo nft list ruleset"
+    "sudo apt-get update && sudo apt-get upgrade"
+    "echo 'hello world'"
+)
+```
+I recommend having the commands on the terminal at output a number in chronological order, so you know which commands to run in wanted  terminals:
+```
+commands=(
+    "echo '1"
+    "echo '2"
+    "echo '3"
+    "echo '4"
+    "echo '5"
+)
 ```
 
 <br>
 <br>
 
 ### 4. Modify *"startup_terminals.sh"* bash file
-
- **Adjust the Opening Hours**
-Locate and open the `./service_python/check_if_time_within_openings_hours.py` file in your project directory.
+This file is responsible for executing above 3 files.
 
 ```python
+#!/bin/bash
+
+# Change directory to the location of your batch scripts
+cd /home/custom_configs/personal_computer_startup_scripts/hyper_terminal
+
+# Execute the first batch script
+./open_specified_amount_hyper_terminal_windows
+# Sleep for 2sec so all terminals are opened
+sleep 2
+
+# Execute the second batch script
+./move_and_resize_all_open_hyper_terminals
+# Sleep for 1 second after moving all terminals 
+sleep 2
+
+# Execute the third batch script
+./execute_specified_cmds_within_open_hyper_terminals
 
 ```
+You can personally modify the time it waits between taking actions. 
 
+<br>
+<br>
+<br>
+<br>
 
-
-<br>
-<br>
-<br>
-<br>
 ### File: `main.sh`
 
 The `main.sh` script automates the process of installing Hyper, configuring it with custom settings, and setting up the startup scripts.
@@ -203,12 +299,13 @@ The `main.sh` script automates the process of installing Hyper, configuring it w
 # Variables
 SCRIPT_DIR="/home/custom_configs/personal_computer_startup_scripts/hyper_terminal"
 HYPER_CONFIG_DIR="/home/custom_configs/hyper_terminal"
-BACKGROUND_IMAGES_DIR="/home/custom_configs/hyper_terminal/backround_images"
-HYPER_CONFIG_FILE="./hyper_configs/hyper_custom_background.js"
+BACKGROUND_IMAGES_DIR="/home/custom_configs/hyper_terminal/background_images"
+HYPER_CUSTOM_CONFIG_FILE="./hyper_configs/hyper_custom_background.js"
+HYPER_CONFIG_FILE = "~/.hyper.js"
 
 # Ensure the script is run as root for package installation
 if [ "$(id -u)" -ne "0" ]; then
-    echo "This script requires root privileges. Please run as sudo."
+    echo "This script requires root privileges for installing Hyper. Please run as sudo."
     exit 1
 fi
 
@@ -217,11 +314,6 @@ echo "Downloading and installing Hyper..."
 curl -L https://releases.hyper.is/download/deb -o /tmp/hyper.deb
 dpkg -i /tmp/hyper.deb
 apt-get install -f -y  # Fix any dependency issues
-
-# Install Hyper plugins
-echo "Installing Hyper plugins..."
-hyper i hyper-background
-hyper i hyper-startup
 
 # Create required directories
 echo "Creating directories..."
@@ -232,17 +324,22 @@ mkdir -p "$BACKGROUND_IMAGES_DIR"
 # Copy files to the appropriate directories
 echo "Copying files..."
 cp -r ./run_on_startup/* "$SCRIPT_DIR/"
-cp -r ./backround_images/* "$BACKGROUND_IMAGES_DIR/"
+cp -r ./background_images/* "$BACKGROUND_IMAGES_DIR/"
+cp -r "$HYPER_CUSTOM_CONFIG_FILE" "$HYPER_CONFIG_DIR/"
+
+# Make the scripts executable
+echo "Making scripts executable"
+chmod +x "$SCRIPT_DIR="/*
 
 # Update Hyper configuration
 echo "Updating Hyper configuration..."
-cp "$HYPER_CONFIG_FILE" ~/.hyper.js
+cp -r "$HYPER_CUSTOM_CONFIG_FILE" "$HYPER_CONFIG_FILE"
 
 # Create a cron job for automatic startup
 echo "Creating cron job..."
 crontab -l > /tmp/crontab_backup
-if ! grep -q "reboot /home/custom_configs/personal_computer_startup_scripts/hyper_terminal/startup_terminals.sh" /tmp/crontab_backup; then
-    echo "reboot /home/custom_configs/personal_computer_startup_scripts/hyper_terminal/startup_terminals.sh" >> /tmp/crontab_backup
+if ! grep -q "@reboot /home/custom_configs/personal_computer_startup_scripts/hyper_terminal/startup_terminals.sh" /tmp/crontab_backup; then
+    echo "@reboot /home/custom_configs/personal_computer_startup_scripts/hyper_terminal/startup_terminals.sh" >> /tmp/crontab_backup
     crontab /tmp/crontab_backup
 fi
 rm /tmp/crontab_backup
@@ -251,33 +348,20 @@ rm /tmp/crontab_backup
 echo "Setting permissions for startup script..."
 chmod +x /home/custom_configs/personal_computer_startup_scripts/hyper_terminal/startup_terminals.sh
 
+# Switch to regular user to install Hyper plugins
+sudo -u $(logname) bash <<EOF
+echo "Installing Hyper plugins..."
+hyper i hyper-background
+hyper i hyper-startup
+EOF
+
 # Test the script manually
-echo "Testing startup script..."
-/home/custom_configs/personal_computer_startup_scripts/hyper_terminal/startup_terminals.sh
-
+echo "Testing startup script... :"
+echo "/home/custom_configs/personal_computer_startup_scripts/hyper_terminal/startup_terminals.sh"
+echo ""
 echo "Setup completed successfully."
+
 ```
-
-### Running the Setup
-
-1. **Make the Script Executable:**
-
-   Before running `main.sh`, ensure it is executable:
-   ```bash
-   chmod +x main.sh
-   ```
-
-2. **Run the Script with Root Privileges:**
-
-   Execute the script with `sudo` to ensure all installation and configuration steps are performed correctly:
-   ```bash
-   sudo ./main.sh
-   ```
-
-By following these steps, your Hyper terminals will be set up to open and configure automatically upon startup.
-
-For further assistance, refer to the `explained.txt` file or contact the repository maintainers.
-
 
 ### File: `startup_terminals.sh`
 
