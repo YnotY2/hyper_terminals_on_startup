@@ -3,6 +3,7 @@ Open specified amount of custom hyper terminals automatically, run custom unique
 
 ## Features:
 
+-   Automatically does most of the set-up ✅
 -   Create a Cron Job for Automatic Startup terminals on boot ✅
 -   Custom amount of terminals opened ✅
 -   Custom commands exuted within termianls ✅
@@ -33,13 +34,8 @@ Open specified amount of custom hyper terminals automatically, run custom unique
      - [Modify `execute_specified_cmds_within_open_hyper_terminals`](#modify-executespecifiedcmdswithinopenhyperterminals-bash-file)
      - [Modify `startup_terminals.sh`](#modify-startupterminals-sh-bash-file)
 
-4. [Understanding Code Layout](#understanding-code-layout)
-   - [Directory Layout](#directory-layout)
-   - [Summary](#summary)
-5. [File: `main.sh`](#file-mainsh)
-6. [Manually Setting Up](#manually-setting-up)
-
-7. [Verifying Setup](#verifying-setup)
+4. [File: `main.sh`](#file-mainsh)
+5. [Manually Setting Up](#manually-setting-up)
 
 
 ## Table of Contents
