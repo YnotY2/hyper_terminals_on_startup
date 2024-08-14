@@ -30,17 +30,9 @@ This guide will help you set up a `startup_terminals.sh` script to open and conf
    - [Directory Layout](#directory-layout)
    - [Summary](#summary)
 
-
-When you clone the repository, it should look like this:
-
-@```
-git_hub_images
-backround_images
-explained.txt
-hyper_configs
-README.md
-run_on_startup
-@```
+<br>
+<br>
+<br>
 
 
 ## Installation
@@ -78,6 +70,7 @@ sudo ./main.sh
 
 <br>
 <br>
+<br>
 
 
 ## Works out of the box 📦
@@ -92,47 +85,88 @@ sudo ./main.sh
 execute_specified_cmds_within_open_hyper_terminals  move_and_resize_all_open_hyper_terminals  open_specified_amount_hyper_terminal_windows  startup_terminals.sh
 ```
 
-### 1. Modify 'open_specified_amount_hyper_terminal_windows' bash file: 
+### 1. Modify *'open_specified_amount_hyper_terminal_windows'* bash file: 
+Specify the amount of terminal window's you want to open when the you're computer starts up. 
 
-You need to modify the `./config/settings.py` file to include your own database credentials, Telegram Bot API token, and other configurations.
-
-####  `./config/settings.py`:
+####  `open_specified_amount_hyper_terminal_windows`:
 
 ```python
-import os
+#!/bin/bash
 
-# Database PostgreSQL Credentials
-postgresql_db_name = os.getenv("postgresql_db_name", "your_db_name")
-postgresql_db_passwd = os.getenv("postgresql_db_passwd", "your_db_password")
-postgresql_db_usr = os.getenv("postgresql_db_usr", "your_db_user")
-postgresql_port = os.getenv("postgresql_port", "5432")      # Default port // Change if needed
-postgresql_host = os.getenv("postgresql_host", "localhost")  # Locally hosted db // Change if needed
+# Define the command to execute
+command_to_execute="hyper"
 
-# Telegram Bot API TOKEN
-telegram_bot_token = os.getenv("telegram_bot_token", "your_bot_token")
+# Number of times to execute the command
+num_executions=5
 
-# Images to send to users within chat:
-start_menu_image_logo = os.getenv("start_menu_image_logo", "./images/start_menu_image_logo.png")
-how_is_our_tattoo_made_video = os.getenv("how_is_our_tattoo_made_video", "./videos/how_is_our_tattoo_made.mp4")
-
-# Admin manage time-slot bookings dashboard access password string:
-admin_manage_bookings_dashboard_password = os.getenv("admin_manage_bookings_dashboard_password", "your_dashboard_password")
+# Loop to execute the command multiple times
+for ((i=1; i<=$num_executions; i++)); do
+    # Execute the command
+    $command_to_execute &
+    
+    # Wait for 0.5 seconds before the next execution
+    sleep 0.5
+done
 ```
 
 <br>
 <br>
 
-### 2. Update FAQ Data
-
+### 2. Modify *"move_and_resize_all_open_hyper_terminals"* bash file
+####  `move_and_resize_all_open_hyper_terminals`:
 
 ```python
+#!/bin/bash
+
+# Get the window IDs of the terminal windows
+window_ids=$(xdotool search --onlyvisible --class "Hyper")
+
+# Counter for terminal windows
+terminal_counter=0
+
+# Loop through each window ID and move/resize as needed
+for id in $window_ids; do
+    # Increment terminal counter
+    ((terminal_counter++))
+
+    # Perform actions based on terminal counter
+    case $terminal_counter in
+        # Terminal 1: Move and resize top left landschape
+        1)
+            xdotool windowmove $id 10 43
+            xdotool windowsize $id 943 370
+            ;;
+        # Terminal 2: Move and resize, bottem-middle left portrait
+        2)
+            xdotool windowmove $id 490 423
+            xdotool windowsize $id 464 646
+            ;;
+        # Terminal 3: Move and resize, bottem right square
+        3)
+            xdotool windowmove $id 970 290
+            xdotool windowsize $id 930 784
+            ;;
+        # Terminal 4: Move and resize, top right landschape
+        4)
+            xdotool windowmove $id 971 39
+            xdotool windowsize $id 934 240
+            ;;
+        # Terminal 5: Move and resize, bottem left portrait
+        5)
+            xdotool windowmove $id 10 423
+            xdotool windowsize $id 464 646
+            ;;
+        # Add more cases for additional terminals as needed
+    esac
+done
 
 ```
+The int values within the script correspond to the pixels on you're screen. Play around with it to match you're personal needs. I recommend starting with both x and y values at 0.
 
 <br>
 <br>
 
-### 3. Customizing Start Menu [Main-Menu]
+### 3. Modify *"execute_specified_cmds_within_open_hyper_terminals"* bash file
 
 
 The start menu is configured in the `./bot/handlers/user_handlers.py` file. Here is the relevant section of the code:
@@ -144,7 +178,7 @@ The start menu is configured in the `./bot/handlers/user_handlers.py` file. Here
 <br>
 <br>
 
-### 4. Modifying Opening Hours
+### 4. Modify *"startup_terminals.sh"* bash file
 
  **Adjust the Opening Hours**
 Locate and open the `./service_python/check_if_time_within_openings_hours.py` file in your project directory.
