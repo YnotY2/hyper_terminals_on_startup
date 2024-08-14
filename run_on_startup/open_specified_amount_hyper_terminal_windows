@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Define the command to execute
+command_to_execute="hyper"
+
+# Number of times to execute the command
+num_executions=5
+
+# Loop to execute the command multiple times
+for ((i=1; i<=$num_executions; i++)); do
+    # Execute the command
+    $command_to_execute &
+    
+    # Wait for 0.5 seconds before the next execution
+    sleep 0.5
+done

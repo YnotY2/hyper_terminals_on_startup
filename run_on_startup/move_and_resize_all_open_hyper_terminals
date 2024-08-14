@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Get the window IDs of the terminal windows
+window_ids=$(xdotool search --onlyvisible --class "Hyper")
+
+# Counter for terminal windows
+terminal_counter=0
+
+# Loop through each window ID and move/resize as needed
+for id in $window_ids; do
+    # Increment terminal counter
+    ((terminal_counter++))
+
+    # Perform actions based on terminal counter
+    case $terminal_counter in
+        # Terminal 1: Move and resize top left landschape
+        1)
+            xdotool windowmove $id 10 43
+            xdotool windowsize $id 943 370
+            ;;
+        # Terminal 2: Move and resize, bottem-middle left portrait
+        2)
+            xdotool windowmove $id 490 423
+            xdotool windowsize $id 464 646
+            ;;
+        # Terminal 3: Move and resize, bottem right square
+        3)
+            xdotool windowmove $id 970 290
+            xdotool windowsize $id 930 784
+            ;;
+        # Terminal 4: Move and resize, top right landschape
+        4)
+            xdotool windowmove $id 971 39
+            xdotool windowsize $id 934 240
+            ;;
+        # Terminal 5: Move and resize, bottem left portrait
+        5)
+            xdotool windowmove $id 10 423
+            xdotool windowsize $id 464 646
+            ;;
+        # Add more cases for additional terminals as needed
+    esac
+done

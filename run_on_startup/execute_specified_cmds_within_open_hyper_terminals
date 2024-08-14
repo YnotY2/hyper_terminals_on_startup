@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Function to execute a command in a terminal window
+execute_command() {
+    local id=$1
+    local command=$2
+
+    # Activate the terminal window
+    xdotool windowactivate --sync $id
+
+    # Clear the terminal window
+    xdotool key --clearmodifiers "ctrl+l"
+
+    # Type the command into the terminal window
+    xdotool type --clearmodifiers "$command"
+
+    # Press Enter to execute the command
+    xdotool key --clearmodifiers "Return"
+
+    # Wait for the command to execute
+    sleep 0.2
+}
+
+# Get the window IDs of the terminal windows
+window_ids=$(xdotool search --onlyvisible --class "Hyper")
+
+# Counter for terminal windows
+terminal_counter=0
+
+# Commands to execute in each terminal window
+commands=(
+    "lsblk -f"
+    "cd ..; ls"
+    "cd /home/custom_configs/nftables; sudo nft list ruleset"
+    "sudo apt-get update && sudo apt-get upgrade"
+    "cat /home/ynoty2/Desktop/.project_switch/TODO"
+)
+
+# Loop through each window ID and execute the corresponding command
+for id in $window_ids; do
+    # Increment terminal counter
+    ((terminal_counter++))
+
+    # Check if the terminal ID is valid
+    if [ -n "$id" ]; then
+        # Execute the command in the current terminal window
+        execute_command $id "${commands[$terminal_counter - 1]}"
+    else
+        echo "Error: Terminal window ID not found."
+    fi
+done

@@ -1,0 +1,32 @@
+# This file explains the functionallity of these start-up scripts for hyper-terminal. 
+
+As you can see we have the following bash scripts present within this dir;
+- execute_specified_cmds_within_open_hyper_terminals
+- move_and_resize_all_open_hyper_terminals
+- open_specified_amount_hyper_terminal_windows
+- startup_terminals.sh 
+
+
+The following actions will be taken when my computer starts:
+1. Five hyper-terminal windows will be open with custom image backgrounds 
+2. Each induvidual terminal is moved to a specified position on screen
+3. Within each induvidual temrinal window a single command is executed 
+
+The result of this is that I am able to quickly view the most important information on my 
+computer with style. 
+
+Currently I am displaying the following info;
++ all dir within /home 
++ My dailly TODO notes
++ The storage and space of my computer (lsblk -f)
++ Updating && Upgrading my  computer 
++ My NFTables current custom-config-file
+
+I can modify the possition, amount of terminal windows and commands executed all by modifying 
+the corresponding batch files within this dir. 
+
+The "starup_terminals.sh" script is the only script that get's executed when my computer starts. 
+That bash script inturns executes the other bach scipts listed above. 
+
+The actually execution of the start-up script is done by this file located within
+"/etc/xdg/autostart/" full-path; "/etc/xdg/autostart/my_hyper_terminal_startup_script.desktop" 
