@@ -38,20 +38,6 @@ Open specified amount of custom hyper terminals automatically, run custom unique
 5. [Manually Setting Up](#manually-setting-up)
 
 
-## Table of Contents
-
-1. [Features](#features)
-
-2. [Installation](#installation)
-   - [Cloning Git Repository](#cloning-git-repository)
-   - [Installing requirements](#installing-requirements)
-   - [Getting API Key from BotFather](#getting-api-key-from-botfather)
-    - [Works out of the box 📦](#works-out-of-the-box-)
-        - [Configuration](#configuration)
-
-5. [Understanding Code Layout](#understanding-code-layout)
-   - [Directory Layout](#directory-layout)
-   - [Summary](#summary)
 
 <br>
 <br>
