@@ -25,10 +25,6 @@ This guide will help you set up a `startup_terminals.sh` script to open and conf
    - [Getting API Key from BotFather](#getting-api-key-from-botfather)
     - [Works out of the box 📦](#works-out-of-the-box-)
         - [Configuration](#configuration)
-        - [1. Update Configuration Settings](#1-update-configuration-settings)
-        - [2. Update FAQ Data](#2-update-faq-data)
-        - [3. Customizing Start Menu [Main-Menu]](#3-customizing-start-menu-main-menu)
-        - [4. Modifying Opening Hours](#4-modifying-opening-hours)
 
 5. [Understanding Code Layout](#understanding-code-layout)
    - [Directory Layout](#directory-layout)
@@ -84,6 +80,85 @@ sudo ./main.sh
 <br>
 
 
+## Works out of the box 📦
+
+## Configuration
+
+- All these files are within: *"/home/custom_configs/personal_computer_startup_scripts/hyper_terminal"*
+```
+/home/custom_configs/personal_computer_startup_scripts/hyper_terminal
+```
+```
+execute_specified_cmds_within_open_hyper_terminals  move_and_resize_all_open_hyper_terminals  open_specified_amount_hyper_terminal_windows  startup_terminals.sh
+```
+
+### 1. Modify 'open_specified_amount_hyper_terminal_windows' bash file: 
+
+You need to modify the `./config/settings.py` file to include your own database credentials, Telegram Bot API token, and other configurations.
+
+####  `./config/settings.py`:
+
+```python
+import os
+
+# Database PostgreSQL Credentials
+postgresql_db_name = os.getenv("postgresql_db_name", "your_db_name")
+postgresql_db_passwd = os.getenv("postgresql_db_passwd", "your_db_password")
+postgresql_db_usr = os.getenv("postgresql_db_usr", "your_db_user")
+postgresql_port = os.getenv("postgresql_port", "5432")      # Default port // Change if needed
+postgresql_host = os.getenv("postgresql_host", "localhost")  # Locally hosted db // Change if needed
+
+# Telegram Bot API TOKEN
+telegram_bot_token = os.getenv("telegram_bot_token", "your_bot_token")
+
+# Images to send to users within chat:
+start_menu_image_logo = os.getenv("start_menu_image_logo", "./images/start_menu_image_logo.png")
+how_is_our_tattoo_made_video = os.getenv("how_is_our_tattoo_made_video", "./videos/how_is_our_tattoo_made.mp4")
+
+# Admin manage time-slot bookings dashboard access password string:
+admin_manage_bookings_dashboard_password = os.getenv("admin_manage_bookings_dashboard_password", "your_dashboard_password")
+```
+
+<br>
+<br>
+
+### 2. Update FAQ Data
+
+
+```python
+
+```
+
+<br>
+<br>
+
+### 3. Customizing Start Menu [Main-Menu]
+
+
+The start menu is configured in the `./bot/handlers/user_handlers.py` file. Here is the relevant section of the code:
+
+```python
+
+```
+
+<br>
+<br>
+
+### 4. Modifying Opening Hours
+
+ **Adjust the Opening Hours**
+Locate and open the `./service_python/check_if_time_within_openings_hours.py` file in your project directory.
+
+```python
+
+```
+
+
+
+<br>
+<br>
+<br>
+<br>
 ### File: `main.sh`
 
 The `main.sh` script automates the process of installing Hyper, configuring it with custom settings, and setting up the startup scripts.
