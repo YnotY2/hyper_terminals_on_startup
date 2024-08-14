@@ -1,15 +1,15 @@
 # hyper_terminals_on_startup
-Open specified amount of custom hyper terminals automatically, run custom unique cli cmd within each induvidual window and move them to specified pixels on computer start-up.
-
-# Setup Guide for Startup Terminals
-
-This guide will help you set up a `startup_terminals.sh` script to open and configure Hyper terminals automatically when your computer starts.
+Open specified amount of custom hyper terminals automatically, run custom unique cli cmd within each induvidual window and move them to specified pixels on computer start-up. Following this guide you will be able to set-up a personal terminal environment to arrive to when starting you're computer. 
 
 ## Features:
--   Create Required Directories ✅
--   Update Hyper Configuration ✅
+
 -   Create a Cron Job for Automatic Startup terminals on boot ✅
--   Admin manegement dashboard for all available booking ✅
+-   Custom amount of terminals opened ✅
+-   Custom commands exuted within termianls ✅
+-   custom placement terminals on screen ✅
+-   Update Hyper Configuration ✅
+-   Create Required Directories ✅
+
 
 ![Example terminal layout](./git_hub_images/example_layout_3.png)
 ![Example terminal layout](./git_hub_images/example_layout_1.png)
@@ -89,6 +89,15 @@ pip install -r requirements.txt
 
 By following these steps, your Hyper terminals will be set up to open and configure automatically upon startup.
 
+## Verifying Setup
+
+- **Test the Script Manually:**
+
+  You can test the script manually to ensure it works correctly:
+  ```bash
+  /home/custom_configs/personal_computer_startup_scripts/hyper_terminal/startup_terminals.sh
+  ```
+
 <br>
 <br>
 <br>
@@ -100,8 +109,9 @@ By following these steps, your Hyper terminals will be set up to open and config
 
 - All these files are within: *"/home/custom_configs/personal_computer_startup_scripts/hyper_terminal"*
 ```
-/home/custom_configs/personal_computer_startup_scripts/hyper_terminal
+/home/custom_configs/personal_computer_startup_scripts/hyper_terminal/
 ```
+**:**
 ```
 execute_specified_cmds_within_open_hyper_terminals  move_and_resize_all_open_hyper_terminals  open_specified_amount_hyper_terminal_windows  startup_terminals.sh
 ```
