@@ -70,12 +70,18 @@ pip install -r requirements.txt
 
 <br>
 <br>
-<br>
-<br>
 
+### Executing 'main.sh'
+To install requirements using the command line, follow these simple steps:
+
+1. Navigate to the dir containing the 'main.sh' file.
+2. Install the requirements:
 ```
-backround_images, explained.txt, hyper_configs, README.md, run_on_startup
+sudo ./main.sh
 ```
+
+<br>
+<br>
 
 
 ### File: `main.sh`
