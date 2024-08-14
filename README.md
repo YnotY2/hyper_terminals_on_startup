@@ -75,6 +75,18 @@ pip install -r requirements.txt
    sudo ./main.sh
    ```
 
+3.  **Overwrite 'hyper.js configuration file'**
+   Execute the script with `sudo` to ensure all installation and configuration steps are performed correctly:
+  
+   ```bash
+   sudo su
+   ```
+  
+   ```bash
+   cat ./hyper_configs/hyper_custom_background.js > ~/.hyper.js
+   ```
+
+
 By following these steps, your Hyper terminals will be set up to open and configure automatically upon startup.
 
 <br>
@@ -289,6 +301,7 @@ You can personally modify the time it waits between taking actions.
 <br>
 <br>
 
+
 ### File: `main.sh`
 
 The `main.sh` script automates the process of installing Hyper, configuring it with custom settings, and setting up the startup scripts.
@@ -363,35 +376,9 @@ echo "Setup completed successfully."
 
 ```
 
-### File: `startup_terminals.sh`
-
-The `startup_terminals.sh` script is designed to open Hyper terminals and run commands within them each time your computer starts.
-
-@```bash
-#!/bin/bash
-# This is a startup_script to open terminals and run cmds within them each time computer starts
-
-# Change directory to the location of your batch scripts
-cd /home/custom_configs/personal_computer_startup_scripts/hyper_terminal
-
-# Execute the first batch script
-./open_specified_amount_hyper_terminal_windows
-
-# Sleep for 2 seconds so all terminals are opened
-sleep 2
-
-# Execute the second batch script
-./move_and_resize_all_open_hyper_terminals
-
-# Sleep for 2 seconds after moving all terminals
-sleep 2
-
-# Execute the third batch script
-./execute_specified_cmds_within_open_hyper_terminals
-@```
 
 
-## Setting Up
+## Manually Setting Up
 
 - **Download and Install Hyper:**
 
@@ -414,50 +401,50 @@ Follow these steps to correctly configure your system:
 1. **Create Required Directories:**
 
    - Create the directory for personal startup scripts:
-     @```bash
+     ```bash
      mkdir -p /home/custom_configs/personal_computer_startup_scripts/hyper_terminal
-     @```
+     ```
 
    - Create the directory for Hyper terminal configurations:
-     @```bash
+     ```bash
      mkdir -p /home/custom_configs/hyper_terminal
-     @```
+     ```
 
    - Create the directory for background images:
-     @```bash
+     ```bash
      mkdir -p /home/custom_configs/hyper_terminal/backround_images
-     @```
+     ```
 
 2. **Copy Files:**
 
    - Copy all files from the `./run_on_startup/` directory to `/home/custom_configs/personal_computer_startup_scripts/hyper_terminal/`:
-     @```bash
+     ```bash
      cp -r ./run_on_startup/* /home/custom_configs/personal_computer_startup_scripts/hyper_terminal/
-     @```
+     ```
 
    - Copy all files from `./backround_images/` to `/home/custom_configs/hyper_terminal/backround_images/`:
-     @```bash
+     ```bash
      cp -r ./backround_images/* /home/custom_configs/hyper_terminal/backround_images/
-     @```
+     ```
 
 3. **Update Hyper Configuration:**
 
    - Overwrite the file content of `~/.hyper.js` with `./hyper_configs/hyper_custom_background.js`:
-     @```bash
+     ```bash
      cp ./hyper_configs/hyper_custom_background.js ~/.hyper.js
-     @```
+     ```
 
 4. **Create a Cron Job for Automatic Startup:**
 
    - Open your crontab configuration:
-     @```bash
+     ```bash
      crontab -e
-     @```
+     ```
 
    - Add the following line to execute the `startup_terminals.sh` script at startup:
-     @```bash
-     @reboot /home/custom_configs/personal_computer_startup_scripts/hyper_terminal/startup_terminals.sh
-     @```
+     ```bash
+     reboot /home/custom_configs/personal_computer_startup_scripts/hyper_terminal/startup_terminals.sh
+     ```
 
    - Save and exit the editor.
 
@@ -466,16 +453,16 @@ Follow these steps to correctly configure your system:
 - **Ensure Script Permissions:**
 
   Make sure the `startup_terminals.sh` script is executable:
-  @```bash
+  ```bash
   chmod +x /home/custom_configs/personal_computer_startup_scripts/hyper_terminal/startup_terminals.sh
-  @```
+  ```
 
 - **Test the Script Manually:**
 
   You can test the script manually to ensure it works correctly:
-  @```bash
+  ```bash
   /home/custom_configs/personal_computer_startup_scripts/hyper_terminal/startup_terminals.sh
-  @```
+  ```
 
 By following these steps, your `startup_terminals.sh` script will run at startup, automatically opening and configuring your Hyper terminals as specified.
 
